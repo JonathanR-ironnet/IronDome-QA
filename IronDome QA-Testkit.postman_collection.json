@@ -1,0 +1,830 @@
+{
+	"info": {
+		"_postman_id": "87d26ce1-7de7-49ca-973a-2f2cefebfef6",
+		"name": "IronDome QA-Testkit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Gateway",
+			"item": [
+				{
+					"name": "Participants",
+					"item": [
+						{
+							"name": "GetParticipants",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200\", function(){",
+											"    pm.response.to.be.ok",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"pm.test(\"Participants retrieved\", function(){",
+											"    pm.expect(response.participants).to.exist",
+											"})",
+											"",
+											"pm.environment.set(\"CreatedParticipant1\", response.participants.pop().id+1);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apikey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "{{domeurl}}/participants",
+									"host": [
+										"{{domeurl}}"
+									],
+									"path": [
+										"participants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParticipant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// pm.test(\"Status 200\", function(){",
+											"//     pm.response.to.be.ok",
+											"// })",
+											"",
+											"// pm.test(\"Participant retrieved\", function(){",
+											"//     var response = pm.response.json();",
+											"//     pm.expect(response.name).to.eql(\"IronNet Cybersecurity\")",
+											"// })",
+											"",
+											"pm.test(\"Status 200\", function () {",
+											"    pm.response.to.be.ok",
+											"})",
+											"",
+											"// var response = pm.response.json();",
+											"// pm.test(\"Participants retrieved\", function () {",
+											"//     pm.expect(response[0].kafkaTopic).to.exist",
+											"// })",
+											"",
+											"pm.test(\"Participant retrieved\", function () {",
+											"    var response = pm.response.json();",
+											"    var count = 0;",
+											"    var participant = \"nutanix-load-irondev-io\";",
+											"    for (let i = 0; i < response.lenght; i++) {",
+											"        count = i;",
+											"        if (response[i].name == participant) {",
+											"            break;",
+											"        }",
+											"    }",
+											"    pm.expect(response[count].name).to.eql(participant);",
+											"})",
+											"",
+											"",
+											"",
+											"/* console.log(response)",
+											"",
+											"pm.test(\"Participation Created 2.0\", function(){",
+											"    var resp = pm.response.json();",
+											"    console.log(resp);",
+											"    for (var i = 0; i < resp.length; i++){",
+											"        value = pm.environment.get(\"Test Company 2\");",
+											"        if resp.length[i].mapping[0]",
+											"    }",
+											"",
+											"})",
+											"*/",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apikey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "{{domeurl}}/participants",
+									"host": [
+										"{{domeurl}}"
+									],
+									"path": [
+										"participants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CheckAddTag",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Participant tag added\", function(){",
+											"    var response = pm.response.json();",
+											"    pm.expect(response.tags.length).to.eql(3);",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/participant/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"participant",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tags",
+					"item": [
+						{
+							"name": "CheckCreate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Tag Created\", function(){",
+											"    var response = pm.response.json();",
+											"    pm.expect(response[(response.length)-1].name).to.eql(\"energy\");",
+											"})",
+											"",
+											"",
+											"pm.test(\"Participant Created\", function(){",
+											"    var response = pm.response.json();",
+											"    for (let i = 0; i < response.length; i++) {",
+											"        if (response[i].name == \"demo_usa\") {",
+											"            pm.expect(response[i].name).to.eql(\"demo_usa\");",
+											"            break;",
+											"        }",
+											"    }",
+											"})",
+											"",
+											"pm.test(\"Participant Created\", function(){",
+											"    var response = pm.response.json();",
+											"    for (let i = 0; i < response.length; i++) {",
+											"        console.log(response[i].name)",
+											"        if (response[i].name == \"Test Company 3\") {",
+											"            pm.expect(response[i].name).to.eql(\"Test Company 3\");",
+											"            break;",
+											"        }",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apikey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "{{domeurl}}/tags",
+									"host": [
+										"{{domeurl}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTags",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200\", function(){",
+											"    pm.response.to.be.ok",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"pm.test(\"Tags retrieved\", function(){",
+											"    pm.expect(response).to.exist",
+											"})",
+											"",
+											"pm.environment.set(\"CreatedTag1\", response.pop().id+1);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apikey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "{{domeurl}}/tags",
+									"host": [
+										"{{domeurl}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CheckUpdate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Tag Updated\", function(){",
+											"    var response = pm.response.json();",
+											"        pm.expect(response[(response.length)-1].name).to.eql(\"TestIt\");",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/tags",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Alerts",
+					"item": [
+						{
+							"name": "GetAlerts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Uncorrelated IP and Domain alerts retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        switch(data.tag_id){",
+											"        case 1:",
+											"            pm.expect(data.tag_id).to.eql(1)",
+											"            pm.expect(data.tag_name).to.eql(\"energy\")",
+											"            pm.expect(data.has_unique_events).to.eql(true)",
+											"            pm.expect(data.has_common_events).to.eql(false)",
+											"            break;",
+											"        case 2:",
+											"            pm.expect(data.tag_id).to.eql(2)",
+											"            pm.expect(data.tag_name).to.eql(\"finance\")",
+											"            pm.expect(data.has_unique_events).to.eql(true)",
+											"            pm.expect(data.has_common_events).to.eql(false)",
+											"            break;",
+											"        default: ",
+											"            pm.expect(data.tag_id).to.be.oneOf([1,2])",
+											"            break;",
+											"        }",
+											"    })",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "4526928b-c20b-4baa-a38f-dfe36372946a"
+									},
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/alert/123e4567-e89b-12d3-a456-426655440004/metadata",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"alert",
+										"123e4567-e89b-12d3-a456-426655440004",
+										"metadata"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						},
+						{
+							"name": "GetDomainAlerts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Correlated Domain alerts retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        switch(alert) {",
+											"    case \"123e4567-e89b-12d3-a456-426655440000\":",
+											"        pm.expect(data[0].tag_id).to.eql(1)",
+											"        pm.expect(data[0].tag_name).to.eql(\"energy\")",
+											"        pm.expect(data[0].has_unique_events).to.eql(false)",
+											"        pm.expect(data[0].has_common_events).to.eql(true)",
+											"        pm.expect(data[1].tag_id).to.eql(2)",
+											"        pm.expect(data[1].tag_name).to.eql(\"finance\")",
+											"        pm.expect(data[1].has_unique_events).to.eql(false)",
+											"        pm.expect(data[1].has_common_events).to.eql(true)",
+											"        break;",
+											"    case \"123e4567-e89b-12d3-a456-426655440001\":",
+											"        pm.expect(data[0].tag_id).to.eql(1)",
+											"        pm.expect(data[0].tag_name).to.eql(\"energy\")",
+											"        pm.expect(data[1].has_unique_events).to.eql(false)",
+											"        pm.expect(data[1].has_common_events).to.eql(true)",
+											"        pm.expect(data[1].tag_id).to.eql(2)",
+											"        pm.expect(data[1].tag_name).to.eql(\"finance\")",
+											"        pm.expect(data[1].has_unique_events).to.eql(false)",
+											"        pm.expect(data[1].has_common_events).to.eql(true)",
+											"        break;",
+											"    default:",
+											"        pm.expect(event).to.be.oneOf([\"123e4567-e89b-12d3-a456-426655440001\",\"123e4567-e89b-12d3-a456-426655440000\"])",
+											"}",
+											"    })",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "4526928b-c20b-4baa-a38f-dfe36372946a"
+									},
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/alerts/metadata?alert_id=123e4567-e89b-12d3-a456-426655440000&alert_id=123e4567-e89b-12d3-a456-426655440001",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"alerts",
+										"metadata"
+									],
+									"query": [
+										{
+											"key": "alert_id",
+											"value": "123e4567-e89b-12d3-a456-426655440000"
+										},
+										{
+											"key": "alert_id",
+											"value": "123e4567-e89b-12d3-a456-426655440001"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						},
+						{
+							"name": "GetDomainTagFilterAlerts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Tag filtered Domain alerts retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        switch(alert) {",
+											"    case \"123e4567-e89b-12d3-a456-426655440000\":",
+											"        pm.expect(_.size(data)).to.eql(1)",
+											"        pm.expect(data[0].tag_id).to.eql(2)",
+											"        pm.expect(data[0].tag_name).to.eql(\"finance\")",
+											"        pm.expect(data[0].has_unique_events).to.eql(false)",
+											"        pm.expect(data[0].has_common_events).to.eql(true)",
+											"        break;",
+											"    case \"123e4567-e89b-12d3-a456-426655440001\":",
+											"        pm.expect(_.size(data)).to.eql(1)",
+											"        pm.expect(data[0].tag_id).to.eql(2)",
+											"        pm.expect(data[0].tag_name).to.eql(\"finance\")",
+											"        pm.expect(data[0].has_unique_events).to.eql(false)",
+											"        pm.expect(data[0].has_common_events).to.eql(true)",
+											"        break;",
+											"    default:",
+											"        pm.expect(event).to.be.oneOf([\"123e4567-e89b-12d3-a456-426655440001\",\"123e4567-e89b-12d3-a456-426655440000\"])",
+											"}",
+											"    })",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "4526928b-c20b-4baa-a38f-dfe36372946a"
+									},
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/alerts/metadata?alert_id=123e4567-e89b-12d3-a456-426655440000&alert_id=123e4567-e89b-12d3-a456-426655440001&tag=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"alerts",
+										"metadata"
+									],
+									"query": [
+										{
+											"key": "alert_id",
+											"value": "123e4567-e89b-12d3-a456-426655440000"
+										},
+										{
+											"key": "alert_id",
+											"value": "123e4567-e89b-12d3-a456-426655440001"
+										},
+										{
+											"key": "tag",
+											"value": "2"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						},
+						{
+							"name": "GetDomainAlert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Correlated Domain alert retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        switch(data.tag_id){",
+											"        case 1:",
+											"            pm.expect(data.tag_id).to.eql(1)",
+											"            pm.expect(data.tag_name).to.eql(\"energy\")",
+											"            pm.expect(data.has_unique_events).to.eql(false)",
+											"            pm.expect(data.has_common_events).to.eql(true)",
+											"            break;",
+											"        case 2:",
+											"            pm.expect(data.tag_id).to.eql(2)",
+											"            pm.expect(data.tag_name).to.eql(\"finance\")",
+											"            pm.expect(data.has_unique_events).to.eql(false)",
+											"            pm.expect(data.has_common_events).to.eql(true)",
+											"            break;",
+											"        default: ",
+											"            pm.expect(data.tag_id).to.be.oneOf([1,2])",
+											"            break;",
+											"        }",
+											"    })",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "d98b3cb8-4194-49d9-ae12-e2451bda5202"
+									},
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/alert/123e4567-e89b-12d3-a456-426655440000/metadata",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"alert",
+										"123e4567-e89b-12d3-a456-426655440000",
+										"metadata"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						},
+						{
+							"name": "GetDomainTagFilterAlert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Tag filtered Domain alert retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        pm.expect(alert).to.eql(\"123e4567-e89b-12d3-a456-426655440000\")",
+											"        pm.expect(_.size(data)).to.eql(1)",
+											"        pm.expect(data[0].tag_id).to.eql(1)",
+											"        pm.expect(data[0].tag_name).to.eql(\"energy\")",
+											"        pm.expect(data[0].has_unique_events).to.eql(false)",
+											"        pm.expect(data[0].has_common_events).to.eql(true)",
+											"    })",
+											"})"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "d98b3cb8-4194-49d9-ae12-e2451bda5202"
+									},
+									{
+										"key": "x-api-key",
+										"value": "98765432109876543210"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/alerts/metadata?alert_id=123e4567-e89b-12d3-a456-426655440000&tag=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"alerts",
+										"metadata"
+									],
+									"query": [
+										{
+											"key": "alert_id",
+											"value": "123e4567-e89b-12d3-a456-426655440000"
+										},
+										{
+											"key": "tag",
+											"value": "1"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						},
+						{
+							"name": "GetIPAlert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correlated IP alerts retrieved\", function(){",
+											"    var response = pm.response.json();",
+											"    _.forEach(response, function (data, alert ) {",
+											"        pm.expect(alert).to.eql(\"123e4567-e89b-12d3-a456-426655440003\")",
+											"        pm.expect(data[0].tag_id).to.eql(1)",
+											"        pm.expect(data[0].tag_name).to.eql(\"energy\")",
+											"        pm.expect(data[1].has_unique_events).to.eql(false)",
+											"        pm.expect(data[1].has_common_events).to.eql(true)",
+											"        pm.expect(data[1].tag_id).to.eql(2)",
+											"        pm.expect(data[1].tag_name).to.eql(\"finance\")",
+											"        pm.expect(data[1].has_unique_events).to.eql(false)",
+											"        pm.expect(data[1].has_common_events).to.eql(true)",
+											"    })",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apikey}}"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Postman-Token",
+										"value": "d98b3cb8-4194-49d9-ae12-e2451bda5202",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{domeurl}}/alerts/tag/correlations?alertIds=952c9a644db94a1faa79b8250a51b52b",
+									"host": [
+										"{{domeurl}}"
+									],
+									"path": [
+										"alerts",
+										"tag",
+										"correlations"
+									],
+									"query": [
+										{
+											"key": "alertIds",
+											"value": "952c9a644db94a1faa79b8250a51b52b"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl -X GET \\\n  'http://localhost:8080/alerts?alert_id=123e4567-e89b-12d3-a456-426655440000,123e4567-e89b-12d3-a456-426655440099' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Postman-Token: 4526928b-c20b-4baa-a38f-dfe36372946a' \\\n  -H 'x-api-key: 98765432109876543210'"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
